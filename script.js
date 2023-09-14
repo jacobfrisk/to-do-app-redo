@@ -275,7 +275,7 @@ function displayTasks(task) {
 
     //   //TODO TEST DET HER AF
     const id = task.id;
-    const found = toDoArray.filter((task) => task.id !== id);
+    const found = deletedArr.filter((task) => task.id !== id);
     deletedArr = found;
 
     displayArray(found);
