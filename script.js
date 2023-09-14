@@ -10,6 +10,14 @@ function setItem() {
   localStorage.setItem("objects", objects);
 }
 
+function loadSavedTasks() {
+  const retrievedArray = JSON.parse(localStorage.getItem("objects"));
+  if (retrievedArray) {
+    deletedArr = retrievedArray;
+  }
+  displayArray(isNotDone);
+}
+
 // function getItem() {
 //   const retrievedObjects = localStorage.getItem("objects");
 //   const retrievedArray = JSON.parse(retrievedObjects);
@@ -315,15 +323,3 @@ importantFilter.addEventListener("click", () => {
 // Hvis der klikkes på "important" skal toDoObject's isImportant ændres til true og føres over i en ul der hedder "important-list"
 
 // Hvis der klikkes på "delete" skal objektet fjernes fra arrayet
-
-function loadSavedTasks() {
-  const retrievedArray = JSON.parse(localStorage.getItem("objects"));
-  if (retrievedArray) {
-    deletedArr = retrievedObjects;
-  }
-  displayArray(isNotDone);
-}
-
-window.addEventListener("load", () => {
-  loadSavedTasks();
-});
