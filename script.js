@@ -10,14 +10,6 @@ function setItem() {
   localStorage.setItem("objects", objects);
 }
 
-function loadSavedTasks() {
-  const retrievedArray = JSON.parse(localStorage.getItem("objects"));
-  if (retrievedArray) {
-    deletedArr = retrievedArray;
-  }
-  displayArray(isNotDone);
-}
-
 // function getItem() {
 //   const retrievedObjects = localStorage.getItem("objects");
 //   const retrievedArray = JSON.parse(retrievedObjects);
@@ -135,6 +127,7 @@ function displayTasks(task) {
     toDoArray.sort(compareTasks);
     const isNotDone = toDoArray.filter((task) => task.isCompleted === false);
     displayArray(isNotDone);
+    setItem();
   });
 
   // Laver en "done" knap der kan sende objektet videre til "done" ul listen
@@ -173,6 +166,9 @@ function displayTasks(task) {
   // Hvis opgaven er markeret færdig skal undoneButton vises
   if (task.isCompleted === true) {
     doneButton.style.display = "none";
+    importantButton.style.display = "none";
+    dateInput.style.display = "none";
+    inputLabel.innerHTML = "";
   }
 
   // Der lyttes på at når doneButton klikkes, toggles der mellem true og false på isCompleted
@@ -194,6 +190,7 @@ function displayTasks(task) {
     compNum.textContent = `(${completedCount})`;
 
     toDoNum.textContent = `(${isNotDone.length})`;
+    setItem();
     // toDoNum.textContent = `(${toDoArray.length--})`;
   });
 
@@ -225,6 +222,7 @@ function displayTasks(task) {
 
     // Set the text content to the count of incomplete tasks
     toDoNum.textContent = `(${incompleteTasks.length})`;
+    setItem();
   });
 
   // Der lyttes på at når importantButton klikkes, toggles der mellem true og false på isImportant
@@ -234,7 +232,9 @@ function displayTasks(task) {
 
     // Arrayet sorteres efter den funktion, der tjekker for om en opgave er vigtig eller har en dato.
     toDoArray.sort(compareTasks);
-    displayArray();
+    const isNotDone = deletedArr.filter((task) => task.isCompleted === false);
+
+    displayArray(isNotDone);
     console.log(toDoArray);
 
     // const completedCount = toDoArray.reduce((count, task) => {
@@ -254,6 +254,7 @@ function displayTasks(task) {
       return count;
     }, 0);
     compNum.textContent = `(${completedCount})`;
+    setItem();
   });
 
   // Der lyttes på når deleteButton klikkes. Hvis den klikkes, sætter den deleted property til true, og herefter kaldes et filter der viser alle objekter der har deleted = false
@@ -316,6 +317,16 @@ importantFilter.addEventListener("click", () => {
   const isImportant = deletedArr.filter((task) => task.isImportant === true);
   displayArray(isImportant);
   document.querySelector("h3").textContent = "Important tasks";
+});
+
+window.addEventListener("load", () => {
+  const retrievedArray = JSON.parse(localStorage.getItem("objects"));
+  if (retrievedArray) {
+    deletedArr = retrievedArray;
+  }
+  const isNotDone = deletedArr.filter((task) => task.isCompleted === false);
+
+  displayArray(isNotDone);
 });
 
 // Hvis der klikkes på "done" skal toDoObject's isCompleted ændres til true og føres over i en ul der hedder "done-list"
