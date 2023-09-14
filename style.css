@@ -9,13 +9,12 @@ body {
 
 .wrapper {
   display: flex;
-  gap: 1rem;
 }
 
 aside {
   background-color: rgb(239, 234, 231);
   height: 100dvh;
-  flex-basis: 300px;
+  flex-basis: 20%;
   gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
 }
@@ -37,7 +36,7 @@ aside {
 }
 
 .list-container {
-  padding-inline: 1rem;
+  flex-basis: 80%;
 }
 
 .list-container > * {
@@ -74,4 +73,27 @@ ul {
   aside {
     height: fit-content;
   }
+}
+
+li {
+  margin-block: 3rem;
+  padding: 1rem;
+}
+
+li button {
+  padding: 0.5rem 1rem;
+}
+
+li > * {
+  margin: 0.5rem;
+}
+
+li:nth-child(2n) {
+  background-color: rgb(239, 234, 231);
+}
+
+h2,
+input,
+h3 {
+  margin-left: 1rem;
 }
