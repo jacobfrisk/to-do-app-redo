@@ -273,6 +273,14 @@ function displayTasks(task) {
     console.log(found);
 
     console.log(deletedArr);
+
+    const index = items.findIndex((task) => task.id === task.id);
+
+    if (index !== -1) {
+      // Remove the item from the array by its index
+      deletedArr.splice(index, 1);
+      getItem();
+    }
   });
 }
 
