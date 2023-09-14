@@ -29,46 +29,55 @@ const submit = document.querySelector("#submit");
 const input = document.querySelector("input");
 
 // Når der klikkes på "submit", lav et toDoObject
-submit.addEventListener("click", () => {
-  document.querySelector("h3").textContent = "Tasks";
-  const toDoObject = {
-    // Description skal være hvad der bliver skrevet i "input"
-    description: input.value,
+input.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") {
+    document.querySelector("h3").textContent = "Tasks";
 
-    // ID skal være et tilfældig tal mellem 1 og 5000
-    id: Math.floor(Math.random() * 5000) + 1,
+    // Gem input værdien i en variabel
+    const inputValue = input.value;
 
-    // isCompleted er false som udgangspunkt
-    isCompleted: false,
+    // Tøm input feltet når der trykkes enter
+    input.value = "";
 
-    // isImportant er false som udgangspunkt
-    isImportant: false,
+    const toDoObject = {
+      // Description skal være hvad der bliver skrevet i "input"
+      description: inputValue,
 
-    dueDate: ``,
+      // ID skal være et tilfældig tal mellem 1 og 5000
+      id: Math.floor(Math.random() * 5000) + 1,
 
-    deleted: false,
-  };
+      // isCompleted er false som udgangspunkt
+      isCompleted: false,
 
-  // 'toDoObject pushes til toDoArray
-  toDoArray.push(toDoObject);
+      // isImportant er false som udgangspunkt
+      isImportant: false,
 
-  console.log(toDoArray);
+      dueDate: ``,
 
-  const isNotDone = toDoArray.filter((task) => task.isCompleted === false);
+      deleted: false,
+    };
 
-  setItem();
+    // 'toDoObject pushes til toDoArray
+    toDoArray.push(toDoObject);
 
-  // Funktion til at vise i DOM'en erklæres
-  displayArray(isNotDone);
+    console.log(toDoArray);
 
-  // const completedCount = toDoArray.reduce((count, task) => {
-  //   if (task.isCompleted === false) {
-  //     return count + 1;
-  //   }
-  //   return count;
-  // }, 0);
+    const isNotDone = toDoArray.filter((task) => task.isCompleted === false);
 
-  toDoNum.textContent = `(${isNotDone.length})`;
+    setItem();
+
+    // Funktion til at vise i DOM'en erklæres
+    displayArray(isNotDone);
+
+    // const completedCount = toDoArray.reduce((count, task) => {
+    //   if (task.isCompleted === false) {
+    //     return count + 1;
+    //   }
+    //   return count;
+    // }, 0);
+
+    toDoNum.textContent = `(${isNotDone.length})`;
+  }
 });
 
 function getItem() {
