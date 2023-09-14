@@ -181,7 +181,7 @@ function displayTasks(task) {
     displayArray(isNotDone);
 
     // Denne funktion tæller hvor mange objekter i arrayet der har isCompleted === true og printer tallet i knappen der viser "completed" tasks
-    const completedCount = toDoArray.reduce((count, task) => {
+    const completedCount = deletedArr.reduce((count, task) => {
       if (task.isCompleted === true) {
         return count + 1;
       }
@@ -206,7 +206,7 @@ function displayTasks(task) {
     const isDone = deletedArr.filter((task) => task.isCompleted === true);
     displayArray(isDone);
 
-    const completedCount = toDoArray.reduce((count, task) => {
+    const completedCount = deletedArr.reduce((count, task) => {
       if (task.isCompleted === true) {
         return count + 1;
       }
@@ -247,7 +247,7 @@ function displayTasks(task) {
 
     // impNum.textContent = `(${completedCount})`;
 
-    const completedCount = toDoArray.reduce((count, task) => {
+    const completedCount = deletedArr.reduce((count, task) => {
       if (task.isCompleted === true) {
         return count + 1;
       }
