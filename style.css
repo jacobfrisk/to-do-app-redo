@@ -13,10 +13,11 @@ body {
 
 aside {
   background-color: rgb(239, 234, 231);
-  height: 100dvh;
+  min-height: 100dvh;
   flex-basis: 20%;
   gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+  border-right: 1px solid black;
 }
 
 .category-container {
@@ -53,6 +54,7 @@ aside {
   background-color: rgb(239, 234, 231);
   border: none;
   padding: 1rem 1rem;
+  width: 200px;
   border-radius: 5px;
 }
 
@@ -76,7 +78,7 @@ ul {
 }
 
 li {
-  margin-block: 3rem;
+  margin-block: 2rem;
   padding: 1rem;
 }
 
