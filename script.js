@@ -10,13 +10,6 @@ function setItem() {
   localStorage.setItem("objects", objects);
 }
 
-// function getItem() {
-//   const retrievedObjects = localStorage.getItem("objects");
-//   const retrievedArray = JSON.parse(retrievedObjects);
-//   deletedArr = retrievedArray;
-// }
-// getItem();
-
 const toDoNum = document.querySelector("#toDoNum");
 
 // Definer hvor objekter skal skrives ud i DOM'en
@@ -28,7 +21,7 @@ const submit = document.querySelector("#submit");
 // Definer input felt
 const input = document.querySelector("input");
 
-// Når der klikkes på "submit", lav et toDoObject
+// Når der klikkes på "input", lav et toDoObject
 input.addEventListener("keypress", (e) => {
   if (e.key === "Enter") {
     document.querySelector("h3").textContent = "Tasks";
@@ -52,8 +45,10 @@ input.addEventListener("keypress", (e) => {
       // isImportant er false som udgangspunkt
       isImportant: false,
 
+      // dueDate sættes tom, da den beriges senere
       dueDate: ``,
 
+      // Objektet er som udgangspunkt deleted: false
       deleted: false,
     };
 
@@ -61,10 +56,9 @@ input.addEventListener("keypress", (e) => {
     toDoArray.push(toDoObject);
 
     console.log(toDoArray);
+    setItem();
 
     const isNotDone = toDoArray.filter((task) => task.isCompleted === false);
-
-    setItem();
 
     // Funktion til at vise i DOM'en erklæres
     displayArray(isNotDone);
@@ -193,8 +187,8 @@ function displayTasks(task) {
   // Der lyttes på at når doneButton klikkes, toggles der mellem true og false på isCompleted
   doneButton.addEventListener("click", () => {
     task.isCompleted = !task.isCompleted;
-    // Hvis en opgave ikke er markeret "done", skal arrayet filtrere kun på de opgaver, der er klikket "done på"
 
+    // Hvis en opgave ikke er markeret "done", skal arrayet filtrere kun på de opgaver, der er klikket "done på"
     isNotDone = deletedArr.filter((task) => task.isCompleted === false);
     document.querySelector("h3").textContent = "Tasks";
     displayArray(isNotDone);
@@ -279,11 +273,6 @@ function displayTasks(task) {
 
   // Der lyttes på når deleteButton klikkes. Hvis den klikkes, sætter den deleted property til true, og herefter kaldes et filter der viser alle objekter der har deleted = false
   deleteButton.addEventListener("click", () => {
-    //   task.deleted = true;
-    //   const isDeleted = toDoArray.filter((task) => task.deleted === false) && toDoArray.filter((task) => task.isCompleted === false);
-    //   displayArray(isDeleted);
-    //   console.log(toDoArray);
-
     //   //TODO TEST DET HER AF
     const id = task.id;
     const found = deletedArr.filter((task) => task.id !== id);
