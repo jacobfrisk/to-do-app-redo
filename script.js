@@ -100,15 +100,19 @@ function displayArray(taskList = toDoArray) {
 function displayTasks(task) {
   // Laver li elementet
   const listItem = document.createElement("li");
+  listItem.setAttribute("data-field", task.id);
 
   // Laver description element
   const taskDescription = document.createElement("p");
+  taskDescription.classList.add("description");
   taskDescription.textContent = task.description;
 
   // Laver date input element og lytter på change i inputtet, tilføjer derefter en dueDate til objektet.
 
   // Label til dato input laves
   const inputLabel = document.createElement("label");
+  inputLabel.classList.add("dueDateTxt");
+
   inputLabel.textContent = "Assign due date";
 
   // Selve inputtet laves
@@ -118,6 +122,7 @@ function displayTasks(task) {
 
   // Element der indeholder due date i sig
   const dueDateDescription = document.createElement("p");
+  dueDateDescription.classList.add("dueDateTxt");
   // Hvis due date ikke er defineret, lad strengen være tom
   if (task.dueDate === "") {
     dueDateDescription.textContent = "";
@@ -134,24 +139,29 @@ function displayTasks(task) {
 
     // Her kaldes en funktion der sorterer opgaverne i arrayet efter dueDate
     toDoArray.sort(compareTasks);
-    const isNotDone = toDoArray.filter((task) => task.isCompleted === false);
+    const isNotDone = deletedArr.filter((task) => task.isCompleted === false);
     displayArray(isNotDone);
     setItem();
   });
 
   // Laver en "done" knap der kan sende objektet videre til "done" ul listen
   const doneButton = document.createElement("button");
+  doneButton.classList.add("done-button");
   doneButton.textContent = "Done";
 
   const undoneButton = document.createElement("button");
+  undoneButton.classList.add("undone-button");
   undoneButton.textContent = "Undone";
 
   const deleteButton = document.createElement("button");
+  deleteButton.classList.add("delete-button");
   deleteButton.textContent = "Delete";
   deleteButton.dataset.id = task.id;
 
   // Laver en "important" knap der kan sende objektet videre til "done" ul listen
   const importantButton = document.createElement("button");
+  importantButton.classList.add("important-button");
+
   importantButton.textContent = "Important";
 
   // Appender alle elementer til DOM'en under li'en
@@ -235,8 +245,9 @@ function displayTasks(task) {
   });
 
   // Der lyttes på at når importantButton klikkes, toggles der mellem true og false på isImportant
-  importantButton.addEventListener("click", () => {
+  importantButton.addEventListener("click", (e) => {
     task.isImportant = !task.isImportant;
+
     console.log(task);
 
     // Arrayet sorteres efter den funktion, der tjekker for om en opgave er vigtig eller har en dato.

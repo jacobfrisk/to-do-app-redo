@@ -1,5 +1,5 @@
 :root {
-  --box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+  --box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
 }
 
 * {
@@ -27,19 +27,26 @@ aside {
 }
 
 .category-container {
-  margin: 1rem;
+  margin: 1.5rem;
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  position: sticky;
+  top: 1.5rem;
 }
 
 .category-container button {
-  padding: 2rem;
-  width: 100%;
+  padding: 2rem 1rem;
+
   background-color: rgb(214 210 207);
   border: none;
   border-radius: 10px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+  min-width: 100px;
 }
 
 .list-container {
@@ -89,10 +96,34 @@ li {
 
 li button {
   padding: 0.5rem 1rem;
+  margin-top: 1rem;
+  width: 7rem;
+  cursor: pointer;
+  background-color: #d5d2ce;
 }
 
 li > * {
   margin: 0.5rem;
+}
+
+.done-button {
+  border: 1px solid #029c13;
+  border-radius: 3px;
+}
+
+.undone-button {
+  border: 1px solid #007afe;
+  border-radius: 3px;
+}
+
+.important-button {
+  border: 1px solid #ff9500;
+  border-radius: 3px;
+}
+
+.delete-button {
+  border: 1px solid #ff2a00;
+  border-radius: 3px;
 }
 
 li:nth-child(2n) {
@@ -103,4 +134,14 @@ h2,
 input,
 h3 {
   margin-left: 1rem;
+}
+
+.description {
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.dueDateTxt {
+  font-size: 1rem;
+  opacity: 0.6;
 }
