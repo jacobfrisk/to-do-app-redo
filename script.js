@@ -1,15 +1,23 @@
 // Lav et tomt array til toDoObjects
 let toDoArray = [];
+let deletedArr = [];
+let isNotDone;
 
-// let countCompleted = toDoArray.reduce((count, task) => {
-//   if (task.isCompleted === true) {
-//     return count + 1;
-//   } else {
-//     return count;
-//   }
-// }, 0);
+deletedArr = toDoArray;
 
-// document.querySelector("#compNum").textContent = `(${countCompleted})`;
+function setItem() {
+  let objects = JSON.stringify(deletedArr);
+  localStorage.setItem("objects", objects);
+}
+
+// function getItem() {
+//   const retrievedObjects = localStorage.getItem("objects");
+//   const retrievedArray = JSON.parse(retrievedObjects);
+//   deletedArr = retrievedArray;
+// }
+// getItem();
+
+const toDoNum = document.querySelector("#toDoNum");
 
 // Definer hvor objekter skal skrives ud i DOM'en
 const toDoList = document.querySelector("#to-do-list");
@@ -22,7 +30,7 @@ const input = document.querySelector("input");
 
 // Når der klikkes på "submit", lav et toDoObject
 submit.addEventListener("click", () => {
-  document.querySelector("h3").textContent = "To Do List";
+  document.querySelector("h3").textContent = "Tasks";
   const toDoObject = {
     // Description skal være hvad der bliver skrevet i "input"
     description: input.value,
@@ -48,9 +56,26 @@ submit.addEventListener("click", () => {
 
   const isNotDone = toDoArray.filter((task) => task.isCompleted === false);
 
+  setItem();
+
   // Funktion til at vise i DOM'en erklæres
   displayArray(isNotDone);
+
+  // const completedCount = toDoArray.reduce((count, task) => {
+  //   if (task.isCompleted === false) {
+  //     return count + 1;
+  //   }
+  //   return count;
+  // }, 0);
+
+  toDoNum.textContent = `(${isNotDone.length})`;
 });
+
+function getItem() {
+  const retrievedObjects = localStorage.getItem("objects");
+  const retrievedArray = JSON.parse(retrievedObjects);
+  deletedArr = retrievedArray;
+}
 
 function displayArray(taskList = toDoArray) {
   // Definer hvor opgaverne skal vises henne
@@ -59,7 +84,7 @@ function displayArray(taskList = toDoArray) {
     toDoList.innerHTML = "";
   }
 
-  // forEach toDoObject'er ud i en ny funktion, der skal skabe li elementer i "to-do-list" ul'en
+  // forEach toDoObject'er ud i en ny funktion, der skal skabe li elementer i "to-do-list" ul'
   taskList.forEach(displayTasks);
 }
 
@@ -113,6 +138,7 @@ function displayTasks(task) {
 
   const deleteButton = document.createElement("button");
   deleteButton.textContent = "Delete";
+  deleteButton.dataset.id = task.id;
 
   // Laver en "important" knap der kan sende objektet videre til "done" ul listen
   const importantButton = document.createElement("button");
@@ -145,17 +171,52 @@ function displayTasks(task) {
   doneButton.addEventListener("click", () => {
     task.isCompleted = !task.isCompleted;
     // Hvis en opgave ikke er markeret "done", skal arrayet filtrere kun på de opgaver, der er klikket "done på"
-    const isNotDone = toDoArray.filter((task) => task.isCompleted === false);
-    document.querySelector("h3").textContent = "To Do List";
+
+    isNotDone = deletedArr.filter((task) => task.isCompleted === false);
+    document.querySelector("h3").textContent = "Tasks";
     displayArray(isNotDone);
+
+    // Denne funktion tæller hvor mange objekter i arrayet der har isCompleted === true og printer tallet i knappen der viser "completed" tasks
+    const completedCount = toDoArray.reduce((count, task) => {
+      if (task.isCompleted === true) {
+        return count + 1;
+      }
+      return count;
+    }, 0);
+    compNum.textContent = `(${completedCount})`;
+
+    toDoNum.textContent = `(${isNotDone.length})`;
+    // toDoNum.textContent = `(${toDoArray.length--})`;
   });
+
+  // console.log(isNotDone.length);
+  // submit.addEventListener("click", () => {
+  //   taskNum = isNotDone.length;
+  // });
 
   // Der lyttes på undoneButton, og hvis der klikkes på den, sendes opgaven tilbage til "to-do-list"
   undoneButton.addEventListener("click", () => {
     task.isCompleted = !task.isCompleted;
     // Hvis en opgave ikke er markeret "done", skal arrayet filtrere kun på de opgaver, der er klikket "done på"
-    const isDone = toDoArray.filter((task) => task.isCompleted === true);
+    const isDone = deletedArr.filter((task) => task.isCompleted === true);
     displayArray(isDone);
+
+    const completedCount = toDoArray.reduce((count, task) => {
+      if (task.isCompleted === true) {
+        return count + 1;
+      }
+      return count;
+    }, 0);
+    compNum.textContent = `(${completedCount})`;
+
+    // toDoNum.textContent = `(${isNotDone.length})`;
+    // toDoNum.textContent = `(${toDoArray.length})`;
+
+    // Filter the array to get objects with isCompleted: false
+    const incompleteTasks = toDoArray.filter((task) => !task.isCompleted);
+
+    // Set the text content to the count of incomplete tasks
+    toDoNum.textContent = `(${incompleteTasks.length})`;
   });
 
   // Der lyttes på at når importantButton klikkes, toggles der mellem true og false på isImportant
@@ -167,6 +228,24 @@ function displayTasks(task) {
     toDoArray.sort(compareTasks);
     displayArray();
     console.log(toDoArray);
+
+    // const completedCount = toDoArray.reduce((count, task) => {
+    //   if (task.isImportant === true) {
+    //     return count + 1;
+    //   } else {
+    //     return count - 1;
+    //   }
+    // }, 0);
+
+    // impNum.textContent = `(${completedCount})`;
+
+    const completedCount = toDoArray.reduce((count, task) => {
+      if (task.isCompleted === true) {
+        return count + 1;
+      }
+      return count;
+    }, 0);
+    compNum.textContent = `(${completedCount})`;
   });
 
   // Der lyttes på når deleteButton klikkes. Hvis den klikkes, sætter den deleted property til true, og herefter kaldes et filter der viser alle objekter der har deleted = false
@@ -178,8 +257,13 @@ function displayTasks(task) {
 
     //   //TODO TEST DET HER AF
     const id = task.id;
-    const found = toDoArray.find((element) => (element = id));
+    const found = toDoArray.filter((task) => task.id !== id);
+    deletedArr = found;
+
+    displayArray(found);
     console.log(found);
+
+    console.log(deletedArr);
   });
 }
 
@@ -205,25 +289,25 @@ function compareTasks(a, b) {
 // Denne funktion gør at arrayet sorteres efter om opgaven er markeret færdig, og vil kun vise dem der er færdige ved at klikke på "Done" filterknappen
 const completedFilter = document.querySelector("#completedFilter");
 completedFilter.addEventListener("click", () => {
-  const isDone = toDoArray.filter((task) => task.isCompleted === true);
+  const isDone = deletedArr.filter((task) => task.isCompleted === true);
   displayArray(isDone);
-  document.querySelector("h3").textContent = completedFilter.textContent;
+  document.querySelector("h3").textContent = "Completed";
 });
 
 // Denne funktion gør at arrayet sorteres efter om opgaven ikke er markeret færdig, og vil kun vise dem der ikke er færdige ved at klikke på "To-Do-List" filterknappen
 const toDoFilter = document.querySelector("#toDoFilter");
 toDoFilter.addEventListener("click", () => {
-  const isNotDone = toDoArray.filter((task) => task.isCompleted === false);
+  const isNotDone = deletedArr.filter((task) => task.isCompleted === false);
   displayArray(isNotDone);
-  document.querySelector("h3").textContent = toDoFilter.textContent;
+  document.querySelector("h3").textContent = "Tasks";
 });
 
 // Denne funktion gør at arrayet sorteres efter om opgaven iikke er vigtig, og vil kun vise dem der er vigtige ved at klikke på "Important" filterknappen
 const importantFilter = document.querySelector("#importantFilter");
 importantFilter.addEventListener("click", () => {
-  const isImportant = toDoArray.filter((task) => task.isImportant === true);
+  const isImportant = deletedArr.filter((task) => task.isImportant === true);
   displayArray(isImportant);
-  document.querySelector("h3").textContent = importantFilter.textContent;
+  document.querySelector("h3").textContent = "Important tasks";
 });
 
 // Hvis der klikkes på "done" skal toDoObject's isCompleted ændres til true og føres over i en ul der hedder "done-list"
@@ -231,3 +315,15 @@ importantFilter.addEventListener("click", () => {
 // Hvis der klikkes på "important" skal toDoObject's isImportant ændres til true og føres over i en ul der hedder "important-list"
 
 // Hvis der klikkes på "delete" skal objektet fjernes fra arrayet
+
+function loadSavedTasks() {
+  const retrievedArray = JSON.parse(localStorage.getItem("objects"));
+  if (retrievedArray) {
+    deletedArr = retrievedObjects;
+  }
+  displayArray(isNotDone);
+}
+
+window.addEventListener("load", () => {
+  loadSavedTasks();
+});
